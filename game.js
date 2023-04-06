@@ -54,6 +54,7 @@
                                 showAnswer();
                                 getFormattedTime();
                                 stopTimer()
+                                displayMsg.textContent = "Yod did it!"
                             }
                             if (counter == 1) {
                                 startTimer()
