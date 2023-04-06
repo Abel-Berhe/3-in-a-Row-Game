@@ -1,12 +1,17 @@
 //IIFI 
 (() => {
-
     const container = document.querySelector("#theGame");
     let correctStates = [];
     let rowCount = 0;
+    let counter = 0;
+    let seconds = 0;
+    let timer;
     let checkbox = document.createElement("input");
-    let label = document.createElement("label");
+    let showIncorrect = document.createElement("label");
     let displayMsg = document.createElement("label");
+    let displayTime = document.createElement("div");
+    let text = document.createElement("label");
+    let duration = document.createElement("label");
     fetch('https://prog2700.onrender.com/threeinarow/6x6')
         //fetch('https://prog2700.onrender.com/threeinarow/random')
         .then((response) => response.json())
@@ -15,6 +20,7 @@
             let tbody = document.createElement("tbody");
             let check = document.createElement("button");
             let answer = document.createElement("button");
+            let reset = document.createElement("button");
             data.rows.map((row) => {
                 let r = document.createElement("tr");
                 row.map((cell) => {
@@ -31,6 +37,7 @@
                     correctStates.push(cell.correctState);
                     //change bg color when a cell clicked based on the current state
                     td.addEventListener("click", () => {
+                        counter++;
                         if (td.dataset.toggle === "true") {
                             if (td.dataset.currentState === "0") {
                                 td.dataset.currentState = "1";
@@ -45,7 +52,13 @@
                             let result = isPuzzleSolved();
                             if (result == true) {
                                 showAnswer();
+                                getFormattedTime();
+                                stopTimer()
                             }
+                            if (counter == 1) {
+                                startTimer()
+                            }
+
 
                             td.textContent = "";
                         }
@@ -69,6 +82,16 @@
             check.style.backgroundColor = "#aaaaaa";
             check.textContent = "check";
 
+            reset.style.width = "80px";
+            reset.style.height = "30px";
+            reset.style.border = "1px"
+            reset.style.borderRadius = "10px"
+            reset.style.marginTop = "10px";
+            reset.style.backgroundColor = "#aaaaaa";
+            reset.style.marginLeft = "20px"
+            reset.textContent = "reset";
+
+
             answer.style.width = "80px";
             answer.style.height = "30px";
             answer.style.border = "1px"
@@ -76,18 +99,26 @@
             answer.style.marginTop = "10px";
             answer.style.marginLeft = "20px";
             answer.style.backgroundColor = "#45B8AC";
-            answer.textContent = "answer";
+            answer.textContent = "solve";
 
-            label.textContent = "show incorrect"
-            label.style.fontSize = "19px"
-            label.style.marginLeft = "40px";
+            showIncorrect.textContent = "show incorrect"
+            showIncorrect.style.fontSize = "19px"
+            showIncorrect.style.marginLeft = "40px";
 
             displayMsg.style.fontSize = "15";
             displayMsg.style.fontSize = "100%";
             displayMsg.style.marginTop = "20px";
             displayMsg.style.display = "flex";
 
-
+            displayTime.style.width = "50px";
+            displayTime.style.height = "50px";
+            displayTime.style.border = "2px solid blue";
+            displayTime.style.borderRadius = "50%";
+            displayTime.style.display = "flex";
+            displayTime.style.justifyContent = "center";
+            displayTime.style.alignItems = "center";
+            displayTime.style.marginLeft = "100px";
+            displayTime.style.marginBottom = "20px";
 
             checkbox.type = "checkbox";
             checkbox.addEventListener("change", (event) => {
@@ -97,15 +128,21 @@
 
             })
 
+            container.appendChild(displayTime);
             container.appendChild(table);
             container.appendChild(check);
             container.appendChild(answer);
-            container.appendChild(label);
+            container.appendChild(reset);
+            container.appendChild(showIncorrect);
             container.appendChild(checkbox);
             container.appendChild(displayMsg);
+            container.appendChild(duration);
+
+
 
             check.addEventListener("click", checkCurrentProgress);
             answer.addEventListener("click", showAnswer);
+            reset.addEventListener("click", resetGame);
 
         });
 
@@ -143,7 +180,6 @@
             }
         }
 
-
         let result = hasThreeInARow(matrix);
         if (result === true) {
             alert("3-in-A-Row");
@@ -154,7 +190,8 @@
         if (solved === true) {
             displayMsg.style.color = "blue";
             displayMsg.textContent = "Yod did it!"
-            showAnswer();
+            getFormattedTime();
+            stopTimer()
         } else {
             if (squareState === true) {
                 displayMsg.textContent = "So far So Good!"
@@ -248,6 +285,31 @@
                 squareArray[i].textContent = "";
             }
         }
+    }
+
+    //reset game
+    let resetGame = () => {
+        location.reload();
+    }
+
+    function startTimer() {
+        timer = setInterval(function () {
+            seconds++;
+            text.textContent = seconds;
+            text.style.color = "blue";
+            displayTime.appendChild(text);
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timer);
+        seconds = 0;
+    }
+
+    let getFormattedTime = () => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        duration.textContent = `Duration ${minutes} : ${remainingSeconds} minutes`
     }
 
 })();   
