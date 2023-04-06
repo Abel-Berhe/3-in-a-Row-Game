@@ -125,6 +125,10 @@
             checkbox.addEventListener("change", (event) => {
                 if (event.currentTarget.checked) {
                     showMistakes();
+                    setTimeout(() => {
+                        checkbox.checked = false;
+                    }, 300);
+                   
                 }
 
             })
