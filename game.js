@@ -54,6 +54,7 @@
                                 showAnswer();
                                 getFormattedTime();
                                 stopTimer()
+                                displayMsg.style.color = "green";
                                 displayMsg.textContent = "Yod did it!"
                             }
                             if (counter == 1) {
@@ -191,21 +192,21 @@
         }
 
         let squareState = checkCurrentSquareState();
+        if (squareState === true) {
+            displayMsg.textContent = "So far So Good!"
+            displayMsg.style.color = "green";
+        } else {
+            displayMsg.textContent = "Mistake found!"
+            displayMsg.style.color = "red";
+        }
+        
         let solved = isPuzzleSolved();
         if (solved === true) {
-            displayMsg.style.color = "blue";
+            displayMsg.style.color = "green";
             displayMsg.textContent = "Yod did it!"
             getFormattedTime();
             stopTimer()
-        } else {
-            if (squareState === true) {
-                displayMsg.textContent = "So far So Good!"
-                displayMsg.style.color = "green";
-            } else {
-                displayMsg.textContent = "Mistake found!"
-                displayMsg.style.color = "red";
-            }
-        }
+        } 
 
     }
 
