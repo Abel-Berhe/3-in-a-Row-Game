@@ -1,3 +1,5 @@
+![3-In-A-Row](https://github.com/Abel-Berhe/3-in-a-Row-Game/blob/a407ce703858087388c16b491108f4ff2f1eb004/3-In-A-Row(GIF).gif)
+
 # 3-in-a-Row-Game
 
 PROG 2700                ASSIGNMENT 4 ( PARTS A & B) – HTML DOM MANIPULATION
